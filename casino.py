@@ -1,5 +1,6 @@
 import random
 
+
 def game():
     diff_list = []
     players_list = []
