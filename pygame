@@ -1,0 +1,51 @@
+import pygame
+import random
+
+pygame.init()
+
+width, height = 800, 600
+screen = pygame.display.set_mode((width, height))
+
+
+RED = (255, 0, 0)
+WHITE = (255, 255, 255)
+
+x, y = width // 2, height //2
+speed = 0.1
+ball_x, ball_y = random.randint(0,width-20), random.randint(0, height-20)
+ball_color = WHITE
+
+running = True
+score = 0
+font = pygame.font.Font(None,36)
+
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_LEFT] and x > 0:
+        x -= speed
+    if keys[pygame.K_RIGHT] and x < width - 40:
+        x += speed
+    if keys[pygame.K_UP] and y > 0:
+        y -= speed
+    if keys[pygame.K_DOWN] and y < height - 40:
+        y += speed
+
+    if x -20 < ball_x < x + 20 and y - 20 < ball_y < y + 20:
+        ball_color = RED
+        score += 1
+        ball_x,ball_y = random.randint(0, width-20), random.randint(0, height-20)
+        ball_color = WHITE
+
+    screen.fill((0, 0, 0))
+    pygame.draw.circle(screen, ball_color, (ball_x, ball_y), 10)
+    pygame.draw.rect(screen, RED, (x - 20, y - 20, 40, 40))
+    text = font.render(f"Счет: {score}", True, WHITE)
+    screen.blit(text, (10, 10))
+
+    pygame.display.flip()
+
+pygame.quit()
