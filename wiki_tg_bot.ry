@@ -1,0 +1,37 @@
+import telebot, wikipedia, re
+
+bot = telebot.TeleBot('7180165518:AAHIsbimkqob91S7vYl3pjN2A9wFlF_hN18')
+
+wikipedia.set_lang("ru")
+
+
+def getwiki(s):
+    try:
+        ny = wikipedia.page(s)
+        wikitext = ny.content[:1000]
+        wikimas = wikitext.split('.')
+        wikimas = wikimas[:-1]
+        wikitext2 = ''
+        for x in wikimas:
+            if not ('==' in x):
+                if (len((x.strip())) > 3):
+                    wikitext2 = wikitext2 + x + '.'
+            else:
+                break
+
+        return wikitext2
+    except Exception as e:
+        return "Incorrect request"
+
+
+@bot.message_handler(commands=["start"])
+def start(message, res=False):
+    bot.send_message(message.chat.id, "print me something")
+
+
+@bot.message_handler(content_types=["text"])
+def handle_text(message):
+    bot.send_message(message.chat.id, getwiki(message.text))
+
+
+bot.polling(none_stop=True, interval=0)
