@@ -1,0 +1,23 @@
+import telebot
+from telebot import types
+
+bot = telebot.TeleBot('7180165518:AAHIsbimkqob91S7vYl3pjN2A9wFlF_hN18')
+
+"""""@bot.message_handler(commands=["start"])
+def start(message, res=False):
+    bot.send_message(message.chat.id, 'hello my friend! ')"""""
+""""@bot.message_handler(content_types=["text"])
+def handle_text(message):
+    bot.send_message(message.chat.id, "you wrote: " + message.text"""""
+
+@bot.message_handler(commands=["start"])
+def start(message):
+    markup = types.ReplyKeyboardMarkup()
+    btn1 = types.KeyboardButton('hello')
+    btn2 = types.KeyboardButton('hi')
+
+    markup.row(btn1,btn2)
+    bot.send_message(message.from_user.id, "something",reply_markup=markup)
+bot.polling(none_stop=True,interval=0)
+
+
